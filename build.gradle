@@ -1,0 +1,86 @@
+String appName = "kjv-service"
+String ver = '0.1.0'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+
+group = 'org.swordexplorer'
+def springVersion = '4.2.5.RELEASE'
+def springBootVersion = '1.5.4.RELEASE'
+mainClassName="org.swordexplorer.Main"
+version = ver
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}
+
+task deploy(type:Exec) {
+    workingDir './deployment'
+    executable 'sh'
+    args "./deploy.sh", appName, ver
+}
+
+deploy.dependsOn build
+
+
+dependencies {
+    compile('org.codehaus.groovy:groovy-all:2.4.0')
+    //compile 'io.github.javaconductor:gserv:1.0.0'
+
+    // Spring
+//    compile "org.springframework:spring-context:${springVersion}"
+//    compile "org.springframework:spring-beans:${springVersion}"
+//    compile "org.springframework:spring-core:${springVersion}"
+//    compile "org.springframework:spring-context:${springVersion}"
+
+    //Spring Boot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion){000
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
+
+    /// Mongo
+//    compile "org.springframework.data:spring-data-mongodb:1.5.2.RELEASE"
+    compile "org.mongodb:mongo-java-driver:2.12.2"
+    compile "org.mongodb:mongodb-driver:3.4.2"
+
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+//    testCompile "org.springframework:spring-test:${springVersion}"
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives groovydocJar
+}

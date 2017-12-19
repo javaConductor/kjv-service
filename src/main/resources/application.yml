@@ -1,0 +1,8 @@
+mongo:
+  host: localhost
+  port: 27017
+  db:
+    name: bibleXref
+
+server:
+  port: 8001
