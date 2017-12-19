@@ -57,6 +57,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: springBootVersion
 
     /// Mongo
 //    compile "org.springframework.data:spring-data-mongodb:1.5.2.RELEASE"

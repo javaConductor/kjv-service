@@ -1,5 +1,6 @@
 package org.swordexplorer.controllers
 
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.swordexplorer.bible.BibleService
@@ -10,10 +11,12 @@ import org.swordexplorer.bible.VerseRange
 /**
  * Created by lee on 6/11/17.
  */
+@Log
 @CrossOrigin
 @RestController
 @RequestMapping("/verses")
 class VerseController {
+
     BibleService bibleService
 
     @Autowired

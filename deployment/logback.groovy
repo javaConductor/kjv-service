@@ -31,7 +31,7 @@ import ch.qos.logback.core.status.OnConsoleStatusListener
 
 // For syntax, see http://logback.qos.ch/manual/groovy.html
 // Logging detail levels: TRACK > DEBUG > INFO > WARN > ERROR
-
+System.out.println("logback.groovy.")
 displayStatusOnConsole()
 scan('5 minutes') // periodically scan for log configuration changes
 setupAppenders()

@@ -11,6 +11,7 @@ if [ ! -d  ${APP_HOME} ]
 then
     mkdir ${APP_HOME}
     mkdir ${APP_HOME}/systemd
+    mkdir ${APP_HOME}/logs
 fi
 
 rm /usr/bin/${TARGET_NAME}.* 2> /dev/null
