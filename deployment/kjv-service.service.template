@@ -1,0 +1,9 @@
+[Unit]
+Description=King James Bible Verse Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/${appName}/systemd/${appName}.start.sh
+ExecStop=/opt/${appName}/systemd/${appName}.stop.sh

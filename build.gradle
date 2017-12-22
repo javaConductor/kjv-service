@@ -36,7 +36,39 @@ task deploy(type:Exec) {
     args "./deploy.sh", appName, ver
 }
 
-deploy.dependsOn build
+task createDeploymentScripts(type: Copy){
+    System.out.println("task: createDeploymentScripts")
+    // for each file in deployment dir ending in '.template'
+    //FileCollection collection = files("deployment/*").filter {it.name.endsWith(".template")}
+    FileTree tree = fileTree("deployment").include("*.template")
+    System.out.println("fileTree == ${tree}")
+    String currentTime = new Date().format("MMM dd, yyyy HH:mm:ss")
+
+    tree.each { File template ->
+        System.out.println("Template == ${template.absolutePath}")
+        System.out.println("Template w/o template == ${template.absolutePath.substring(0, template.absolutePath.size()-9)}")
+        String targetName = template.absolutePath.substring(0, template.absolutePath.size()-9)
+        System.out.println("Target name == $targetName")
+        System.out.println("Template $template.absolutePath -> $targetName")
+        File target = new File(targetName)
+        target.delete()
+        Map vars = [:]
+        Map env = System.getenv()
+        Map props =  [ appName: appName, version: version, currentTime: currentTime ]
+        vars << ( env )
+        vars << ( props )
+        copy {
+            from "deployment"
+            into "deployment"
+            include template.name
+            rename { file -> targetName }
+            expand( vars )
+        }
+    }
+}
+
+deploy.dependsOn createDeploymentScripts
+createDeploymentScripts.dependsOn build
 
 
 dependencies {
