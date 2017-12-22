@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 APP_NAME=kjv-service
 systemctl daemon-reload
 systemctl stop ${APP_NAME}

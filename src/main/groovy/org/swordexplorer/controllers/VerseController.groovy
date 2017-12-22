@@ -1,5 +1,6 @@
 package org.swordexplorer.controllers
 
+import groovy.util.logging.Commons
 import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -11,7 +12,7 @@ import org.swordexplorer.bible.VerseRange
 /**
  * Created by lee on 6/11/17.
  */
-@Log
+@Commons
 @CrossOrigin
 @RestController
 @RequestMapping("/verses")
@@ -31,7 +32,7 @@ class VerseController {
 
     @RequestMapping(path = "/fromSpec/{verseSpec}", method = RequestMethod.GET)
     Response<VerseRange> fromVerseSpec(@PathVariable("verseSpec") String verseSpec) {
-        println("/fromSpec/${verseSpec}")
+        log.debug("/fromSpec/${verseSpec}")
         new Response<VerseRange>(success: true, data: bibleService.verseSpecToVerses(verseSpec))
     }
 
@@ -39,8 +40,7 @@ class VerseController {
     @RequestMapping(path = "/withText/{searchText}/{searchType}", method = RequestMethod.GET)
     Response<List<SearchResult>> withText(@PathVariable("searchText") String searchText,
                                           @PathVariable("searchType") String searchType) {
-        println("/withText/${searchText}/${searchType}")
+        log.debug("/withText/${searchText}/${searchType}")
         new Response<List<SearchResult>>(success: true, data: bibleService.searchVerses(searchText, searchType))
-
     }
 }

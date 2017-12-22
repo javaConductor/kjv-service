@@ -28,8 +28,10 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 import ch.qos.logback.core.status.OnConsoleStatusListener
-//Created ${currentTime}
-
+import ch.qos.logback.classic.filter.ThresholdFilter
+//////////////////////////////////////////////////////
+//Created ${currentTime} by Deployment
+//////////////////////////////////////////////////////
 // For syntax, see http://logback.qos.ch/manual/groovy.html
 // Logging detail levels: TRACK > DEBUG > INFO > WARN > ERROR
 displayStatusOnConsole()
@@ -58,6 +60,9 @@ def setupAppenders() {
         }
     }
     appender("CONSOLE", ConsoleAppender) {
+        filter(ThresholdFilter){
+            level = OFF
+        }
         encoder(PatternLayoutEncoder) {
             pattern = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{66} - %msg%n"
         }
@@ -65,8 +70,6 @@ def setupAppenders() {
 }
 
 def setupLoggers() {
-    logger("groovyx.net.http", WARN, ["FILE"])
-    logger("org.apache.http", ERROR, ["FILE"])
-    logger("io.github.javaconductor.gserv", DEBUG, ["FILE"]) // gServ
-    root(DEBUG, ["FILE"])
+    logger("org.swordexplorer", DEBUG, ["FILE"], false)
+    root(WARN, ["FILE"])
 }

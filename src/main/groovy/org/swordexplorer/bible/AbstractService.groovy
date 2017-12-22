@@ -1,4 +1,7 @@
 package org.swordexplorer.bible
+
+import groovy.util.logging.Commons
+
 /**
  *
  */
@@ -6,6 +9,7 @@ class Pair {
     Integer start, end;
 }
 
+@Commons
 abstract class AbstractService implements BibleService {
 
     def bibleData, bookList, chapters, verses
@@ -110,11 +114,13 @@ abstract class AbstractService implements BibleService {
         }
 
         // optimize verses
-        return [
+        def ret =  [
                 book   : book,
                 chapter: chpt,
                 verses : optimizeVerseSpecVerses(verses, chapterVerseCount(book.id, chpt))
         ]
+        log.debug("parseVerseSpec: $verseSpec -> $ret")
+        ret
     }
 
     @Override

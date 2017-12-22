@@ -28,10 +28,12 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 import ch.qos.logback.core.status.OnConsoleStatusListener
-
+import ch.qos.logback.classic.filter.ThresholdFilter
+//////////////////////////////////////////////////////
+//Created Dec 22, 2017 00:42:15 by Deployment
+//////////////////////////////////////////////////////
 // For syntax, see http://logback.qos.ch/manual/groovy.html
 // Logging detail levels: TRACK > DEBUG > INFO > WARN > ERROR
-System.out.println("logback.groovy.")
 displayStatusOnConsole()
 scan('5 minutes') // periodically scan for log configuration changes
 setupAppenders()
@@ -45,7 +47,7 @@ def displayStatusOnConsole() {
 def setupAppenders() {
     appender("FILE", RollingFileAppender) {
         // add a status message regarding the file property
-        addInfo("Setting [file] property to [bibleService.log]")
+        addInfo("Setting [file] property to [opt/kjv-service/logs/kjv-service.log]")
         file = "/opt/kjv-service/logs/kjv-service.log"
         rollingPolicy(TimeBasedRollingPolicy) {
             fileNamePattern = "/opt/kjv-service/logs/kjv-service.log.%d{yyyy-MM-dd}.%i"
@@ -58,6 +60,9 @@ def setupAppenders() {
         }
     }
     appender("CONSOLE", ConsoleAppender) {
+        filter(ThresholdFilter){
+            level = OFF
+        }
         encoder(PatternLayoutEncoder) {
             pattern = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{66} - %msg%n"
         }
@@ -65,9 +70,6 @@ def setupAppenders() {
 }
 
 def setupLoggers() {
-
-    logger("groovyx.net.http", WARN, ["FILE"])
-    logger("org.apache.http", ERROR, ["FILE"])
-    logger("io.github.javaconductor.gserv", DEBUG, ["FILE"]) // gServ
-    root(DEBUG, ["CONSOLE", "FILE"])
+    logger("org.swordexplorer", DEBUG, ["FILE"], false)
+    root(WARN, ["FILE"])
 }

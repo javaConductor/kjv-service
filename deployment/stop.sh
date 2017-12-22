@@ -1,7 +1,4 @@
 #!/bin/sh
-
-#PID=`cat /etc/sword-server/pid.txt`
-#kill -9 ${PID}
-#rm /etc/sword-server/pid.txt
+#Created Dec 22, 2017 00:42:15
 
 echo kjv-service Service Stopped
