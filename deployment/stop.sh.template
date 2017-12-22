@@ -1,0 +1,4 @@
+#!/bin/sh
+#Created ${currentTime}
+
+echo ${appName} Service Stopped

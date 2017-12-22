@@ -1,0 +1,10 @@
+#!/bin/sh
+#Created ${currentTime}
+
+APP_NAME='${appName}'
+#echo java=`which java`
+
+APP_HOME=/opt/${appName}
+java -Dlogging.config=/opt/${appName}/logback.groovy -jar /opt/${appName}/${appName}.jar  > /opt/${appName}/run.log 2> /opt/${appName}/run.log
+
+echo ${appName} Service Started
